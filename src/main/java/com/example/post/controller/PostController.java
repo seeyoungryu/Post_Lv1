@@ -16,39 +16,49 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
+    // 게시물 생성 API
     @PostMapping("")
     public PostResponseDto createPost(@RequestBody PostRequestDto postRequestDto) {
         return postService.createPost(postRequestDto);
     }
 
+    // 모든 게시물 조회 API
     @GetMapping("")
     public List<PostResponseDto> getPosts() {
         return postService.getPosts();
     }
 
+    // 특정 게시물 조회 API
     @GetMapping("/{postId}")
     public PostResponseDto getPost(@PathVariable Long postId) {
         return postService.getPost(postId);
     }
 
+    // 게시물 수정 API
     @PutMapping("/{postId}")
-    public ResponseEntity<Object> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto postRequestDto) {
-        PostResponseDto postResponseDto;
+    public ResponseEntity<Object> updatePost(
+            @PathVariable Long postId,
+            @RequestBody PostRequestDto postRequestDto
+    ) {
         try {
-            postResponseDto = postService.updatePost(postId, postRequestDto);
+            PostResponseDto postResponseDto = postService.updatePost(postId, postRequestDto);
+            return ResponseEntity.ok(postResponseDto);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
     }
 
+    // 게시물 삭제 API
     @DeleteMapping("/{postId}")
-    public ResponseEntity<Object> deletePost(@PathVariable Long postId, @RequestBody PostRequestDto postRequestDto) {
+    public ResponseEntity<Object> deletePost(
+            @PathVariable Long postId,
+            @RequestBody PostRequestDto postRequestDto
+    ) {
         try {
             postService.deletePost(postId, postRequestDto);
+            return ResponseEntity.ok("삭제가 완료되었습니다");
         } catch (Exception e) {
-            return new ResponseEntity<>("삭제 실패", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("삭제 오류");
         }
-        return new ResponseEntity<>("삭제 성공!", HttpStatus.OK);
     }
 }

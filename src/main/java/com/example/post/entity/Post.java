@@ -1,26 +1,40 @@
 package com.example.post.entity;
 
+import com.example.post.dto.PostRequestDto;
+import com.example.post.dto.PostRequestDto;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.time.LocalDateTime;
-
+@Entity
+@Table(name = "post")
 @Getter
-@Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class Post {
+public class Post extends Timestamped {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
-    private String contents;
-    private String password;
+    @Column
     private String title;
+    @Column
+    private String password;
+    @Column
+    private String author;
+    @Column
+    private String contents;
 
-    public LocalDateTime getCreatedAt() {
-        return null;
+    public Post(PostRequestDto postRequestDto) {
+        this.title = postRequestDto.getTitle();
+        this.author = postRequestDto.getUsername();
+        this.contents = postRequestDto.getContents();
+        this.password = postRequestDto.getPassword();
     }
 
-    public LocalDateTime getModifiedAt() {
-        return null;
+    public void update(PostRequestDto postRequestDto) {
+        this.title = postRequestDto.getTitle();
+        this.author = postRequestDto.getUsername();
+        this.contents = postRequestDto.getContents();
     }
 }
