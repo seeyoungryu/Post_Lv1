@@ -1,55 +1,54 @@
 package com.example.post.controller;
 
+import com.example.post.dto.PostRequestDto;
 import com.example.post.dto.PostResponseDto;
-import com.sparta.post.dto.postRequestDto;
-import com.sparta.post.dto.postResponseDto;
-import com.sparta.post.service.postService;
+import com.example.post.service.PostService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequiredArgsConstructor
+@RequestMapping("/api/posts")
 public class PostController {
+    private final PostService postService;
 
-    private final postService postService;
-
-    //선언
-    public PostController(PostService postService) {
-        this.postService = postService;
-    }    //생성자 - 스프링이 메모서비스를 가져와서 생성자로 주입 (방식)
-
-
-    //-------------------------------
-    @PostMapping("/posts")
-    public postResponseDto createpost(@RequestBody postRequestDto requestDto) {
-        return postService.createpost(requestDto);
+    @PostMapping("")
+    public PostResponseDto createPost(@RequestBody PostRequestDto postRequestDto) {
+        return postService.createPost(postRequestDto);
     }
 
-    @GetMapping("/posts")
-    public List<postResponseDto> getposts() {
-        return postService.getposts();
+    @GetMapping("")
+    public List<PostResponseDto> getPosts() {
+        return postService.getPosts();
     }
 
-//    @GetMapping("/posts")
-//    public List<postResponseDto> getposts() {
-//        return postService.getposts();
-//    }
-
-    @GetMapping("/all-posts")
-    public List<PostResponseDto> getAllPosts() {
-        return postService.getAllPosts();
+    @GetMapping("/{postId}")
+    public PostResponseDto getPost(@PathVariable Long postId) {
+        return postService.getPost(postId);
     }
 
-
-    @PutMapping("/posts/{id}")
-    public Long updatepost(@PathVariable Long id, @RequestBody postRequestDto requestDto) {
-        return postService.updatepost(id, requestDto);
+    @PutMapping("/{postId}")
+    public ResponseEntity<Object> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto postRequestDto) {
+        PostResponseDto postResponseDto;
+        try {
+            postResponseDto = postService.updatePost(postId, postRequestDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
     }
 
-    @DeleteMapping("/posts/{id}")
-    public Long deletepost(@PathVariable Long id) {
-        return postService.deletepost(id);
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Object> deletePost(@PathVariable Long postId, @RequestBody PostRequestDto postRequestDto) {
+        try {
+            postService.deletePost(postId, postRequestDto);
+        } catch (Exception e) {
+            return new ResponseEntity<>("삭제 실패", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("삭제 성공!", HttpStatus.OK);
     }
 }
-
