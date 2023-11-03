@@ -26,7 +26,6 @@ public class PostResponseDto {
 
 }
 
-
 //이 코드는 `PostResponseDto`라는 클래스를 정의하고,
 //이 클래스에 Lombok의 `@Getter` 어노테이션을 사용하여 getter 메서드를 자동으로 생성하고 있습니다.
 // 이 클래스는 게시물의 정보를 클라이언트에 반환하기 위한 데이터 전송 객체(Data Transfer Object, DTO)로 사용될 수 있습니다.

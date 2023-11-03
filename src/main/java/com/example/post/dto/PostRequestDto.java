@@ -12,7 +12,6 @@ public class PostRequestDto {
 }
 
 
-
 //    이 코드는 PostRequestDto라는 클래스를 정의하고,
 //        이 클래스에 Lombok의 @Getter 어노테이션을 사용하여
 //        getter 메서드를 자동으로 생성하고 있는 것으로 보입니다.
