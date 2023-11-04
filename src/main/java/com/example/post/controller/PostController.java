@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
+@RequiredArgsConstructor                            // cf) No~ 기본생성자 생성 *찾아보기
 @RequestMapping("/api/posts")
 public class PostController {
-    private final PostService postService;
+    private final PostService postService;          //빈 주입* (파이널 변수 선언)
 
     // 게시물 생성 API
     @PostMapping("")
-    public PostResponseDto createPost(@RequestBody PostRequestDto postRequestDto) {
+    public PostResponseDto createPost(@RequestBody PostRequestDto postRequestDto) {     //http 이해 필요
         // postRequestDto를 사용하여 새 게시물을 생성하고 반환
         return postService.createPost(postRequestDto);
     }

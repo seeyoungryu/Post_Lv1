@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity // JPA 엔티티임을 나타내는 어노테이션
-@Table(name = "post") // "post" 테이블과 연결됨을 명시
+//@Table(name = "post") // "post" 테이블과 연결됨을 명시
 @Getter // Getter 메서드 자동 생성을 위한 Lombok 어노테이션
 @AllArgsConstructor // 모든 필드를 인자로 받는 생성자 생성
 @NoArgsConstructor // 기본 생성자 생성
